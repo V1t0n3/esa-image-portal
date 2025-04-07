@@ -1,0 +1,39 @@
+{
+  "layout": "grid",
+  "columns": 3,
+  "imageActions": [
+    { "name": "Like", "action": "likeImage" },
+    { "name": "Delete", "action": "deleteImage" },
+    { "name": "Feature", "action": "featureImage" }
+  ],
+  "images": [
+    {
+      "id": "1",
+      "src": "/images/sample1.JPEG",
+      "alt": "Sample 1",
+      "likes": 0,
+      "isFeatured": false
+    },
+    {
+      "id": "2",
+      "src": "/images/sample2.JPEG",
+      "alt": "Sample 2",
+      "likes": 0,
+      "isFeatured": false
+    },
+    {
+      "id": "3",
+      "src": "/images/sample3.JPEG",
+      "alt": "Sample 3",
+      "likes": 0,
+      "isFeatured": false
+    },
+    {
+      "id": "4",
+      "src": "/images/sample4.JPEG",
+      "alt": "Sample 4",
+      "likes": 0,
+      "isFeatured": false
+    }
+  ]
+}
