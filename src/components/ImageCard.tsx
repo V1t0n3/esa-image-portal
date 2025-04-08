@@ -79,7 +79,7 @@ export function ImageCard({ image, actions }: ImageCardProps) {
       {image.isFeatured && (
         <Chip
           label="Featured"
-          color="primary"
+          color="error"
           size="small"
           style={{ position: 'absolute', top: 8, right: 8 }}
         />
@@ -105,15 +105,7 @@ export function ImageCard({ image, actions }: ImageCardProps) {
             {image.likes > 0 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
         )}
-        {actions.includes('delete') && (
-          <IconButton
-            aria-label="delete"
-            onClick={handleDelete}
-            color="primary"
-          >
-            <DeleteIcon />
-          </IconButton>
-        )}
+
         {actions.includes('feature') && (
           <IconButton
             aria-label="feature"
@@ -127,12 +119,21 @@ export function ImageCard({ image, actions }: ImageCardProps) {
           <IconButton
             aria-label="share"
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href)
+              navigator.clipboard.writeText(image.src)
               alert('Image link copied to clipboard!')
             }}
-            color="info"
+            color="primary"
           >
             <ShareIcon />
+          </IconButton>
+        )}
+        {actions.includes('delete') && (
+          <IconButton
+            aria-label="delete"
+            onClick={handleDelete}
+            style={{ color: 'black' }}
+          >
+            <DeleteIcon />
           </IconButton>
         )}
       </Box>

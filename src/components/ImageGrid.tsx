@@ -1,16 +1,10 @@
 import { ImageCard } from './ImageCard'
 import schema from '../schema/image-schema.json'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../state/store'
-import { resetImages } from '../state/slices/imagesSlice'
 
 export function ImageGrid() {
   const images = useSelector((state: RootState) => state.images.images)
-  const dispatch = useDispatch()
-
-  const handleReset = () => {
-    dispatch(resetImages())
-  }
 
   return (
     <div
@@ -20,7 +14,6 @@ export function ImageGrid() {
         gap: '16px',
       }}
     >
-      <button onClick={handleReset}>Reset Images</button>
       {images.map((image) => (
         <ImageCard
           key={image.id}

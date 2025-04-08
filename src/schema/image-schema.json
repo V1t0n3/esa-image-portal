@@ -1,6 +1,6 @@
 {
   "layout": "grid",
-  "columns": 3,
+  "columns": 4,
   "imageActions": [
     { "name": "Like", "action": "likeImage" },
     { "name": "Delete", "action": "deleteImage" },
@@ -10,28 +10,28 @@
   "images": [
     {
       "id": "1",
-      "src": "/images/sample1.JPEG",
+      "src": "https://picsum.photos/200",
       "alt": "Sample 1",
       "likes": 0,
       "isFeatured": false
     },
     {
       "id": "2",
-      "src": "/images/sample2.JPEG",
+      "src": "https://picsum.photos/201",
       "alt": "Sample 2",
       "likes": 0,
       "isFeatured": false
     },
     {
       "id": "3",
-      "src": "/images/sample3.JPEG",
+      "src": "https://picsum.photos/202",
       "alt": "Sample 3",
       "likes": 0,
       "isFeatured": false
     },
     {
       "id": "4",
-      "src": "/images/sample4.JPEG",
+      "src": "https://picsum.photos/203",
       "alt": "Sample 4",
       "likes": 0,
       "isFeatured": false
