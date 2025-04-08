@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import StarIcon from '@mui/icons-material/Star'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import ShareIcon from '@mui/icons-material/Share'
-import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 interface Image {
   id: string
@@ -28,37 +28,43 @@ interface Image {
 interface ImageCardProps {
   image: Image
   actions: string[]
-  onDelete: (id: string) => void
 }
 
-export function ImageCard({ image, actions, onDelete }: ImageCardProps) {
+export function ImageCard({ image, actions }: ImageCardProps) {
   const [likeImage] = useMutation(LIKE_IMAGE)
   const [deleteImage] = useMutation(DELETE_IMAGE)
   const [featureImage] = useMutation(FEATURE_IMAGE)
-  const [isLiked, setIsLiked] = useState(image.likes > 0)
-  const [isFeatured, setIsFeatured] = useState(image.isFeatured)
-  const [likes, setLikes] = useState(image.likes)
+  const dispatch = useDispatch()
 
   const handleLike = async () => {
-    try {
-      const { data } = await likeImage({ variables: { id: image.id } })
-      if (data && data.likeImage) {
-        setIsLiked(true)
-        setLikes(data.likeImage.likes)
-      }
-    } catch (error) {
-      console.error('Error liking the image:', error)
-    }
+    likeImage({ variables: { id: image.id } })
+      .then((response) => {
+        if (response.data?.likeImage) {
+          // Update the local state or Redux store with the new likes count
+          dispatch({ type: 'images/likeImage', payload: image.id })
+        }
+      })
+      .catch((error) => {
+        console.error('Error liking image:', error)
+      })
   }
 
   const handleDelete = async () => {
-    await deleteImage({ variables: { id: image.id } })
-    onDelete(image.id)
+    try {
+      await deleteImage({ variables: { id: image.id } })
+      dispatch({ type: 'images/deleteImage', payload: image.id })
+    } catch (error) {
+      console.error('Error deleting image:', error)
+    }
   }
 
   const handleFeature = () => {
-    setIsFeatured(!isFeatured)
-    featureImage({ variables: { id: image.id } })
+    try {
+      featureImage({ variables: { id: image.id } })
+      dispatch({ type: 'images/featureImage', payload: image.id })
+    } catch (error) {
+      console.error('Error featuring image:', error)
+    }
   }
 
   return (
@@ -70,7 +76,7 @@ export function ImageCard({ image, actions, onDelete }: ImageCardProps) {
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
       }}
     >
-      {isFeatured && (
+      {image.isFeatured && (
         <Chip
           label="Featured"
           color="primary"
@@ -90,27 +96,36 @@ export function ImageCard({ image, actions, onDelete }: ImageCardProps) {
           {image.alt}
         </Typography>
         <Typography variant="body2" color="text.secondary" align="center">
-          Likes: {likes}
+          Likes: {image.likes}
         </Typography>
       </CardContent>
       <Box display="flex" justifyContent="space-around" padding={1}>
         {actions.includes('like') && (
-          <IconButton onClick={handleLike} color="error">
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          <IconButton aria-label="like" onClick={handleLike} color="error">
+            {image.likes > 0 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
         )}
         {actions.includes('delete') && (
-          <IconButton onClick={handleDelete} color="primary">
+          <IconButton
+            aria-label="delete"
+            onClick={handleDelete}
+            color="primary"
+          >
             <DeleteIcon />
           </IconButton>
         )}
         {actions.includes('feature') && (
-          <IconButton onClick={handleFeature} color="warning">
-            {isFeatured ? <StarIcon /> : <StarBorderIcon />}
+          <IconButton
+            aria-label="feature"
+            onClick={handleFeature}
+            color="warning"
+          >
+            {image.isFeatured ? <StarIcon /> : <StarBorderIcon />}
           </IconButton>
         )}
         {actions.includes('share') && (
           <IconButton
+            aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href)
               alert('Image link copied to clipboard!')

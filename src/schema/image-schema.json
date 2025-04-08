@@ -4,7 +4,8 @@
   "imageActions": [
     { "name": "Like", "action": "likeImage" },
     { "name": "Delete", "action": "deleteImage" },
-    { "name": "Feature", "action": "featureImage" }
+    { "name": "Feature", "action": "featureImage" },
+    { "name": "Share", "action": "shareImage" }
   ],
   "images": [
     {

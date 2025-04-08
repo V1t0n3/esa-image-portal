@@ -10,7 +10,7 @@ export function SchemaDrivenComponent() {
 
   return (
     <div>
-      <ImageGrid images={images} />
+      <ImageGrid />
     </div>
   )
 }
